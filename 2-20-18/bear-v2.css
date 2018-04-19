@@ -1,0 +1,76 @@
+body {
+  background: #FBF9ED;
+  font-family: Georgia;
+}
+
+h1
+{
+  color: #F49C6A;
+  font-size: 5em;
+  text-align: relative;
+  padding-top: 5px;
+  border: 2px solid red;
+  text-align: center;
+}
+
+h2
+{
+  font-family: Courier New;
+  text-transform: Uppercase;
+}
+
+h3
+{
+  font-family: Helvetica;
+  font-weight: 200;
+}
+
+nav a
+{
+  color: #F4C7A8;
+}
+
+nav ul a
+{
+  color: #B57493;
+  font-size: 1.5em;
+}
+
+#habitat
+{
+  color: white;
+  background-image: url("https://s3.amazonaws.com/misy350/bg-tree.jpg");
+
+}
+
+#media img
+{
+  border-radius: 100%;
+
+}
+
+.share {
+  border: 5px solid Blue;
+  padding: 10px 0px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.share a {
+  background: green;
+  border: 1px solid black;
+  border-radius: 2px;
+  color: white;
+  display: inline-block;
+  margin: 10px;
+  padding: 14px;
+  text-decoration: none;
+
+}
+
+.share a:hover {
+  background: white;
+  border: 1px solid red;
+  color: red;
+}
