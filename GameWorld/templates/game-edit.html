@@ -1,0 +1,47 @@
+{% extends "home-page.html"%}
+{% block title %}Edit a Game{% endblock %}
+{% block page_content%}
+
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-gamepad" aria-hidden="true"></i> Edit Game:</h1>
+    <form action="/game/edit/{{game.id}}" method="post">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" name="name" value="{{game.name}}" required="true">
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <select class="form-control" name="year">
+          {% for i in range(1970, 2020) %}
+            {% if i == game.year %}
+              <option selected="selected">{{i}}</option>
+            {% else %}
+              <option>{{i}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Console</label>
+        <select class="form-control" name="console">
+          {% for console in consoles %}
+            {% if console == game.console %}
+              <option selected="selected">{{console.name}}</option>
+            {% else %}
+              <option>{{console.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        Console not in the list? <a href="/console/add" class="btn btn-success" role="button" aria-disabled="true">Add Consoles</a>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" required="true">{{game.description}}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+
+{% endblock%}

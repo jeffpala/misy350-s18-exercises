@@ -1,0 +1,44 @@
+{% extends "home-page.html"%}
+{% block title %}Add Games{% endblock %}
+{% block page_content%}
+
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-gamepad" aria-hidden="true"></i> Add Games:</h1>
+    <form action="/game/add" method="post">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" name="name" placeholder="Name of the Game" required="true">
+      </div>
+      <div class="form-group">
+        <label>Year of Release</label>
+        <select class="form-control" name="year">
+          {% for i in range(1970, 2020) %}
+            {% if i == 2018 %}
+              <option selected="selected">{{i}}</option>
+            {% else %}
+              <option>{{i}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Console</label>
+        <select class="form-control" name="console">
+          {% for console in consoles %}
+              <option>{{console.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        Console not in the list? <a href="/console/add" class="btn btn-success" role="button" aria-disabled="true">Add Consoles</a>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" placeholder="Description" required="true"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Game</button>
+    </form>
+  </div>
+
+{% endblock%}

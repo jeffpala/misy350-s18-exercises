@@ -1,0 +1,20 @@
+{% extends "home-page.html"%}
+{% block title %}Edit Console{% endblock %}
+{% block page_content%}
+
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-gamepad" aria-hidden="true"></i> Edit Console:</h1>
+    <form action="/console/edit/{{console.id}}" method="post">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" name="name" value="{{console.name}}" required="true">
+      </div>
+      <div class="form-group">
+        <label>About</label>
+        <textarea class="form-control" name="about" required="true">{{console.about}}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+
+{% endblock%}

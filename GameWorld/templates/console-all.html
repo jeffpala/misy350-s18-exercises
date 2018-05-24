@@ -1,0 +1,91 @@
+{% extends "home-page.html"%}
+{% block title %}All Consoles{% endblock %}
+{% block page_content%}
+
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-gamepad" aria-hidden="true"></i> Consoles:</h1>
+    <div class="row bottom-margin">
+      <a href="/console/add" class="btn btn-primary" role="button" aria-disabled="true">Add Consoles</a>
+    </div>
+    {% if consoles %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>About</th>
+            <th>Year Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for console in consoles %}
+          <tr>
+              <th scope="row">{{console.id}}</th>
+              <td>{{console.name}}</td>
+              <td>{{console.about}}</td>
+              <td>
+                <a href="/console/edit/{{console.id}}" class="btn btn-success" role="button">Edit</a>
+                <a href="/console/delete/{{console.id}}" class="btn btn-danger" role="button">Delete</a>
+                <button class="btn btn-warning delete_ajax_btn" role="button" data-console-id="{{console.id}}">Delete Ajax</a>
+              </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+    {% else %}
+      <h3>There are no consoles in the database yet, please add some.</h3>
+    {% endif %}
+  </div>
+
+{% endblock%}
+
+{% block scripts%}
+{{super()}}
+<script>
+  $(document).ready(function() {
+    $(".delete_ajax_btn").click(function(event) {
+      var console_id = $(this).data("console-id");
+      var row = $(this).parent().parent();
+      swal({
+          title: "Are you sure?",
+          text: "All games of this console will be deleted too!",
+          type: "warning",
+          html: true,
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/console/" + console_id,
+                success: function(response) {
+                  console.log(response);
+                  row.remove();
+                  swal({
+                    title: "Deleted!",
+                    text: response.name + " has been deleted.",
+                    type: "success",
+                    timer: 2500,
+                    showConfirmButton: false
+                  });
+                }
+              })
+              .fail(function(error) {
+                swal({
+                  title: "Oops...",
+                  text: "Deletion failed",
+                  type: "error",
+                  timer: 2000,
+                  showConfirmButton: false
+                });
+              });
+          }
+        });
+    });
+  });
+</script>
+{% endblock%}

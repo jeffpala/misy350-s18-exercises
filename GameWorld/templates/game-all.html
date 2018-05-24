@@ -1,0 +1,121 @@
+{% extends "home-page.html"%}
+{% block title %}All Games{% endblock %}
+{% block page_content%}
+
+<div class="container">
+  <h1 class="mt-5"><i class="fa fa-gamepad" aria-hidden="true"></i> Games:</h1>
+  <div class="row bottom-margin">
+    <a href="/game/add" class="btn btn-primary" role="button" aria-disabled="true">Add Games</a>
+  </div>
+  {% if games %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Year of Release</th>
+        <th>Console</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+      <tr>
+        <th scope="row">{{game.id}}</th>
+        <td>{{game.name}}</td>
+        <td>{{game.year}}</td>
+        <td>{{game.console.name}}</td>
+        <td>
+
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{game.id}}">
+                View
+              </button>
+
+          <div class="modal fade" id="{{game.id}}" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{game.name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+                <div class="modal-body">
+                  <pre>{{game.description}}</pre>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <a href="/game/edit/{{game.id}}" class="btn btn-success" role="button" aria-disabled="true">Edit</a>
+          <a href="/game/delete/{{game.id}}" class="btn btn-danger" role="button" aria-disabled="true">Delete</a>
+          <button class="btn btn-warning delete_ajax_btn" data-game-id={{game.id}}>Delete Ajax</button>
+        </td>
+      </tr>
+
+      {% endfor%}
+    </tbody>
+  </table>
+  {% else %}
+  <h3>There are no consoles in the database yet, please add some.</h3> {% endif %}
+</div>
+
+{% endblock%}
+
+{% block scripts%}
+{{super()}}
+<script>
+  $(document).ready(function() {
+    $(".delete_ajax_btn").click(function(event) {
+      var game_id = $(this).data("game-id");
+
+      var row = $(this).parent().parent();
+      swal({
+          title: "Are you sure?",
+
+          type: "warning",
+          html: true,
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/game/" + game_id,
+                success: function(response) {
+                  console.log(response);
+                  row.remove();
+                  swal({
+                    title: "Deleted!",
+                    text: response.name + " has been deleted.",
+                    type: "success",
+                    timer: 2500,
+                    showConfirmButton: false
+                  });
+                }
+              })
+              .fail(function(error) {
+
+                swal({
+                  title: "Oops...",
+                  text: "Deletion failed",
+                  type: "error",
+                  timer: 2000,
+                  showConfirmButton: false
+                });
+              });
+          }
+        });
+    });
+  });
+</script>
+{% endblock%}

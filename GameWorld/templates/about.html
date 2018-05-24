@@ -1,0 +1,26 @@
+{% extends "home-page.html"%}
+{% block title %}Home Page{% endblock %}
+
+{% block head%}
+  {{ super() }}
+{% endblock%}
+
+{% block page_content%}
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-address-card-o" aria-hidden="true"></i> About Me</h1>
+
+      <p>
+
+      Hello, I am <a id="developer" href="https://github.com/jeffpala" data-toggle="tooltip" data-placement="bottom" title="Finance and MISY Major">Jeff Pala</a>. My GPA is 3.4, and skills include Java, Microsoft Office, etc. I enjoy to spend my time outdoors as I love fishing and hunting. I like to watch football and am a very passionate Philadelphia Eages fan. When I have downtime I like to watch comedy movies and play video games like Fortnite.</p>
+
+  <img src="{{ url_for('static', filename='img/jeff.jpg') }}" alt="Jeff Pala"></div>
+{% endblock%}
+
+{% block scripts%}
+  {{super()}}
+  <script>
+  $(document).ready(function () {
+    $('#developer').tooltip()
+  });
+  </script>
+{% endblock%}
